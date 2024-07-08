@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const userController = require("../../controllers/userController");
-const STATUS_CODES = require("../../models/statusCodes").STATUS_CODES;
+const userController = require("../controllers/userController");
+const STATUS_CODES = require(".././models/statusCodes").STATUS_CODES;
 
 router.get("/register", function (req, res, next) {
   res.render("register", { title: "Time 4 Trivia", error: "" });

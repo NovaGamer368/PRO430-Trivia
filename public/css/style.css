@@ -1,0 +1,45 @@
+body {
+  padding: 50px;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: white;
+  background-color: black;
+}
+
+label {
+  display: inline-block;
+  font-weight: bold;
+  margin-right:5px;
+}
+
+nav {
+  padding: 5px;
+  margin: 0px;
+}
+
+nav a {
+  margin-right: 5px;
+  text-decoration: none;
+  border: solid 1px black;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.error {
+  color:red;
+  font-weight: bold;;
+}
+
+.userBox {
+  border:solid 1px black;
+  border-radius: 5px;
+  padding: 5px;
+  width: 250px;
+  margin-top: 10px;
+}

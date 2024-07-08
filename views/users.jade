@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  form(action='post')
+    h1 Users
+    each user in users 
+      div(class='userBox')
+        h2 Username: #{user.username}
+          h3 Roles
+          ul
+            each role in user.roles 
+              li= role
+            

@@ -1,4 +1,5 @@
 // sqlDAL is responsible to for all interactions with mysql for Membership
+require("dotenv").config();
 const User = require("../models/user").User;
 const Result = require("../models/result").Result;
 const STATUS_CODES = require("../models/statusCodes").STATUS_CODES;
@@ -6,9 +7,9 @@ const STATUS_CODES = require("../models/statusCodes").STATUS_CODES;
 const mysql = require("mysql2/promise");
 const sqlConfig = {
   host: "localhost",
-  user: "dev",
-  password: "P@ssw0rd",
-  database: "Time4Trivia",
+  user: process.env.MYSQL_USER,
+  password: `${process.env.MYSQL_PASSOWRD}`,
+  database: process.env.MYSQL_DATABASE,
   multipleStatements: true,
 };
 
@@ -32,7 +33,7 @@ exports.getAllUsers = async function () {
       let u = userResults[key];
 
       let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-      console.log(sql);
+      // console.log(sql);
       const [roleResults] = await con.query(sql);
 
       // console.log('getAllUsers: role results');

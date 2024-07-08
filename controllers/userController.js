@@ -85,7 +85,7 @@ exports.login = async function (username, password) {
   let passwordsMatch = await bcrypt.compare(password, user.password); // does the given password match the user's hashed password?
 
   if (passwordsMatch) {
-    // console.log('Successful login for ' + username);
+    // console.log("Successful login for " + username);
     // console.log(user);
 
     return new Result(STATUS_CODES.success, "Valid Login.", user);

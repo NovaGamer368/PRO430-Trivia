@@ -12,7 +12,7 @@ const sqlConfig = {
   database: process.env.MYSQL_DATABASE,
   multipleStatements: true,
 };
-
+/////////////////////Start of the Users CRUD
 /**
  * @returns and array of user models
  */
@@ -293,6 +293,58 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
     result.message = err.message;
     return result;
   }
+};
+
+/////////////////////////////End of the Users CRUD
+/////////////////////////////Start of the Trivia Questions CRUD
+/**
+ * @returns and array of user models
+ */
+exports.getAllTriviaQuestions = async function () {
+  questions = [];
+
+  //Connection
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `select * from TriviaQuestions;`;
+
+    const [questionResults] = await con.query(sql);
+    for (key in questionResults) {
+      let q = questionResults[key];
+      let sql = `select * from triviaquestions where TriviaId = ${q.TriviaId}`;
+      const [singleQuestion] = await con.query(sql);
+      // console.log(singleQuestion);
+      questions.push(singleQuestion[0]);
+    }
+
+    // // console.log('getAllUsers: user results');
+    // console.log(questionResults);
+
+    // for (key in userResults) {
+    //   let u = userResults[key];
+
+    //   let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
+    //   console.log(sql);
+    //   const [roleResults] = await con.query(sql);
+
+    //   // console.log('getAllUsers: role results');
+    //   // console.log(roleResults);
+
+    //   let roles = [];
+    //   for (key in roleResults) {
+    //     let role = roleResults[key];
+    //     roles.push(role.Role);
+    //   }
+    //   users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles));
+    // }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    con.end();
+  }
+
+  return questions;
 };
 
 /**

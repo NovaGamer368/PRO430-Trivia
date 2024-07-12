@@ -66,12 +66,25 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/profile", function (req, res, next) {
-  res.render("profile", {
-    title: "Time 4 Trivia",
-    user: req.session.user,
-    isAdmin: req.cookies.isAdmin,
-    error: "",
-  });
+  try {
+    if (req.session.user !== undefined) {
+      res.render("profile", {
+        title: "Time 4 Trivia",
+        user: req.session.user,
+        isAdmin: req.cookies.isAdmin,
+        error: "",
+      });
+    } else {
+      throw new Error("User not logged in");
+    }
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: err.message,
+      error: err,
+    });
+  }
 });
 
 router.post("/profile", async function (req, res, next) {

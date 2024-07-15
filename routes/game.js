@@ -49,21 +49,30 @@ router.get("/play", async function (req, res, next) {
   }
 });
 router.post("/play", async function (req, res, next) {
-  const userAnswers = req.body;
-  let score = 0;
-  console.log(userAnswers);
+  try {
+    const userAnswers = req.body;
+    let score = 0;
 
-  questions.forEach((question, index) => {
-    const userAnswer = userAnswers[`Question${index + 1}`];
-    console.log("question", question.ShuffledAnswers[userAnswer].isCorrect);
-    if (userAnswer != undefined) {
-      if (question.ShuffledAnswers[userAnswer].isCorrect) {
-        score += question.Points;
+    questions.forEach((question, index) => {
+      const userAnswer = userAnswers[`Question${index + 1}`];
+      if (userAnswer != undefined) {
+        if (question.ShuffledAnswers[userAnswer].isCorrect) {
+          score += question.Points;
+        }
       }
-    }
-  });
+    });
 
-  res.send(`Your score is: ${score}`);
+    res.send("result", {
+      resultString: `Your score is ${score}!`,
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: err.message,
+      error: err,
+    });
+  }
 });
 
 module.exports = router;

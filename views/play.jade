@@ -5,40 +5,12 @@ block content
     br
     br
     form(action='post')
-        div 
-            b #{questions[0].Question}
+        each question, index in questions
+            div
+                b #{question.Question}
                 br
-                input(type='radio', name='Question1', value='1')#q1a1
-                label(for='q1a1') catclap
-                br
-
-                input(type='radio', name='Question1', value='2')#q1a2
-                label(for='q1a2') yaay
-                br
-
-                input(type='radio', name='Question1', value='3')#q1a3
-                label(for='q1a3') Erm
-                br
-
-                input(type='radio', name='Question1', value='3')#q1a4
-                label(for='q1a4') pepeW
-                br
-        div 
-            b Question 
-                br
-                input(type='radio', name='Question2', value='1')#q2a1
-                label(for='q2a1') xdx
-                br
-
-                input(type='radio', name='Question2', value='2')#q2a2
-                label(for='q2a2') xdd
-                br
-
-                input(type='radio', name='Question2', value='3')#q2a3
-                label(for='q2a3') dxd
-                br
-
-                input(type='radio', name='Question2', value='3')#q2a4
-                label(for='q2a4') kekw
-                br
+                each answer, i in question.ShuffledAnswers
+                    input(type='radio', name=`Question${index + 1}`, value=i, id=`q${index + 1}a${i + 1}`)
+                    label(for=`q${index + 1}a${i + 1}`) #{answer.text}
+                    br
         button(type="submit") Submit

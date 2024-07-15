@@ -10,7 +10,6 @@ const sqlConfig = {
   user: process.env.MYSQL_USER,
   password: `${process.env.MYSQL_PASSOWRD}`,
   database: process.env.MYSQL_DATABASE,
-  multipleStatements: true,
 };
 /////////////////////Start of the Users CRUD
 /**

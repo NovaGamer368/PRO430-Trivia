@@ -4,7 +4,7 @@ block content
     h1 Play Time 4 Trivia!
     br
     br
-    form(action='post')
+    form(action="play" method="POST")
         each question, index in questions
             div
                 b #{question.Question}

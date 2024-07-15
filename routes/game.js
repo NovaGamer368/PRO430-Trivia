@@ -12,12 +12,10 @@ function shuffle(array) {
 }
 
 router.get("/play", async function (req, res, next) {
-  // TODO: Implement Game
   try {
-    // console.log("user: ", req.session);
     let questions = await gameController.getTriviaQuestions();
-    // console.log("Router Questions:", await questions);
 
+    //Shuffles the questions
     questions.forEach((question) => {
       const answers = [
         { text: question.CorrectAnswer, isCorrect: true },
@@ -26,8 +24,8 @@ router.get("/play", async function (req, res, next) {
         { text: question.WrongAnswer3, isCorrect: false },
       ];
 
+      //Creates the new answers as another object in each question
       question.ShuffledAnswers = shuffle(answers);
-      console.log("Shuffle: ", answers);
     });
 
     // Checking if user is logged in
@@ -51,8 +49,21 @@ router.get("/play", async function (req, res, next) {
   }
 });
 router.post("/play", async function (req, res, next) {
-  console.log(req.body);
-  res.redirect("/");
+  const userAnswers = req.body;
+  let score = 0;
+  console.log(userAnswers);
+
+  questions.forEach((question, index) => {
+    const userAnswer = userAnswers[`Question${index + 1}`];
+    console.log("question", question.ShuffledAnswers[userAnswer].isCorrect);
+    if (userAnswer != undefined) {
+      if (question.ShuffledAnswers[userAnswer].isCorrect) {
+        score += question.Points;
+      }
+    }
+  });
+
+  res.send(`Your score is: ${score}`);
 });
 
 module.exports = router;

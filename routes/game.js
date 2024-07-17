@@ -52,6 +52,7 @@ router.post("/play", async function (req, res, next) {
   try {
     const userAnswers = req.body;
     let score = 0;
+    let answered = 0;
 
     questions.forEach((question, index) => {
       const userAnswer = userAnswers[`Question${index + 1}`];
@@ -59,11 +60,14 @@ router.post("/play", async function (req, res, next) {
         if (question.ShuffledAnswers[userAnswer].isCorrect) {
           score += question.Points;
         }
+        answered += question.Points;
       }
     });
-
-    res.send("result", {
-      resultString: `Your score is ${score}!`,
+    //Do the SQL statement to store the new score on the leaderboard
+    res.render("result", {
+      user: req.session.user,
+      isAdmin: req.cookies.isAdmin,
+      resultString: `Your score is ${score} / ${answered}!`,
     });
   } catch (err) {
     // Handle errors

@@ -9,3 +9,10 @@ exports.getTriviaQuestions = async function () {
   //   console.log("Controller questions: ", results);
   return results;
 };
+
+exports.createLeaderboardProfile = async function (username, score) {
+  //If there is no user in the current leaderboard with the logged in user than create a new player
+};
+exports.getAllLeaderboardProfiles = async function () {
+  //Get all the leaderboard profiles
+};

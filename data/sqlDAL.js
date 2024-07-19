@@ -350,25 +350,25 @@ exports.getAllTriviaQuestions = async function () {
  *
  * @returns a result object with status/message
  */
-exports.drop = async function () {
-  let result = new Result();
+// exports.drop = async function () {
+//   let result = new Result();
 
-  const con = await mysql.createConnection(sqlConfig);
+//   const con = await mysql.createConnection(sqlConfig);
 
-  try {
-    let sql = `drop database Time4Trivia`;
-    let result = await con.query(sql);
-    console.log("drop results:", result);
+//   try {
+//     let sql = `drop database Time4Trivia`;
+//     let result = await con.query(sql);
+//     console.log("drop results:", result);
 
-    result.status = STATUS_CODES.success;
-    result.message = `Database dropped!`;
-  } catch (err) {
-    console.log(err);
-    result.status = STATUS_CODES.failure;
-    result.message = err.message;
-  } finally {
-    con.end();
-  }
+//     result.status = STATUS_CODES.success;
+//     result.message = `Database dropped!`;
+//   } catch (err) {
+//     console.log(err);
+//     result.status = STATUS_CODES.failure;
+//     result.message = err.message;
+//   } finally {
+//     con.end();
+//   }
 
-  return result;
-};
+//   return result;
+// };

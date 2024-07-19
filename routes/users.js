@@ -31,24 +31,33 @@ router.get("/login", function (req, res, next) {
 
 router.post("/login", async function (req, res, next) {
   // Need to get the posted username and password
-  let username = req.body.username;
-  let password = req.body.password;
+  try {
+    let username = req.body.username;
+    let password = req.body.password;
 
-  let result = await userController.login(username, password);
+    let result = await userController.login(username, password);
 
-  let isAdmin = result.data.roles.includes("admin");
+    let isAdmin = result.data.roles.includes("admin");
 
-  if (result?.status == STATUS_CODES.success) {
-    req.session.user = {
-      userId: result.data.userId,
-      username: result.data.username,
-    };
-    res.cookie("isAdmin", isAdmin);
-    res.redirect("/");
-  } else {
-    res.render("login", {
-      title: "Time 4 Trivia",
-      error: "Invalid Login. Please try again.",
+    if (result?.status == STATUS_CODES.success) {
+      req.session.user = {
+        userId: result.data.userId,
+        username: result.data.username,
+      };
+      res.cookie("isAdmin", isAdmin);
+      res.redirect("/");
+    } else {
+      res.render("login", {
+        title: "Time 4 Trivia",
+        error: "Invalid Login. Please try again.",
+      });
+    }
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: "Failed to log in",
+      error: err,
     });
   }
 });

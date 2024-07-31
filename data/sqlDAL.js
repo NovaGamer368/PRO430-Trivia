@@ -304,7 +304,6 @@ exports.getAllTriviaQuestions = async function () {
 
   //Connection
   const con = await mysql.createConnection(sqlConfig);
-
   try {
     let sql = `select * from TriviaQuestions;`;
 
@@ -316,27 +315,6 @@ exports.getAllTriviaQuestions = async function () {
       // console.log(singleQuestion);
       questions.push(singleQuestion[0]);
     }
-
-    // // console.log('getAllUsers: user results');
-    // console.log(questionResults);
-
-    // for (key in userResults) {
-    //   let u = userResults[key];
-
-    //   let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-    //   console.log(sql);
-    //   const [roleResults] = await con.query(sql);
-
-    //   // console.log('getAllUsers: role results');
-    //   // console.log(roleResults);
-
-    //   let roles = [];
-    //   for (key in roleResults) {
-    //     let role = roleResults[key];
-    //     roles.push(role.Role);
-    //   }
-    //   users.push(new User(u.UserId, u.Username, u.Email, u.Password, roles));
-    // }
   } catch (err) {
     console.log(err);
   } finally {
@@ -344,6 +322,60 @@ exports.getAllTriviaQuestions = async function () {
   }
 
   return questions;
+};
+
+exports.createLeaderboardEntry = async function (username, score) {
+  let result = new Result();
+
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `insert into Leaderboard (Username, Score, DateCompleted) values ('${username}', '${score}', '${new Date()
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ")}')`;
+    const entryResult = await con.query(sql);
+
+    let newEntry = entryResult[0].EntryId;
+
+    result.status = STATUS_CODES.success;
+    result.message = "Account Created with User Id: " + newEntry;
+    result.data = newEntry;
+    return result;
+  } catch (err) {
+    console.log(err);
+
+    result.status = STATUS_CODES.failure;
+    result.message = err.message;
+    return result;
+  } finally {
+    con.end();
+  }
+};
+
+exports.getAllLeaderEntries = async function () {
+  entry = [];
+  //Connection
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `select * from Leaderboard;`;
+
+    const [entryResults] = await con.query(sql);
+    for (key in entryResults) {
+      let e = entryResults[key];
+      let sql = `select * from Leaderboard where EntryId = ${e.EntryId}`;
+      const [singleEntry] = await con.query(sql);
+      // console.log(singleEntry);
+      entry.push(singleEntry[0]);
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    con.end();
+  }
+
+  return entry;
 };
 
 /**

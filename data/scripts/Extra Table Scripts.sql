@@ -1,8 +1,9 @@
 use Time4Trivia;
 
+-- Trivia Questions section START
 drop table if exists TriviaQuestions;
 
--- Trivia Questions section START
+
 create table if not exists TriviaQuestions(
 	TriviaId int NOT NULL AUTO_INCREMENT,
 	Question varchar(200) NOT NULL,
@@ -55,3 +56,17 @@ values ("What was Princess Peach's original name in Super Mario Bros. ?",
 		'Princess Buttercup', 'Princess Star', "Princess Mushroom", 
         "Princess Toadstool", 100);
 -- Trivia Questions section END
+
+-- Leaderboard section Start
+drop table if exists Leaderboard;
+
+create table if not exists Leaderboard(
+	EntryId int NOT NULL AUTO_INCREMENT,
+	Username varchar(200) NOT NULL,
+    Score bigint NOT NULL,
+	PRIMARY KEY (EntryId)
+);
+insert into Leaderboard (Username, Score) values ("xBestAdminx", 1000);
+insert into Leaderboard (Username, Score) values ("Trivia_GOD", 700);
+insert into Leaderboard (Username, Score) values ("anonymous", 10000);
+-- Leaderboard section END

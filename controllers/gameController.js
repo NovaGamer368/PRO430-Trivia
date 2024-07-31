@@ -10,9 +10,14 @@ exports.getTriviaQuestions = async function () {
   return results;
 };
 
-exports.createLeaderboardProfile = async function (username, score) {
+exports.createLeaderboardEntry = async function (username, score) {
   //If there is no user in the current leaderboard with the logged in user than create a new player
+  let results = await sqlDAL.createLeaderboardEntry(username, score);
+  // console.log("CreateLeaderboardEntry : ", results);
 };
-exports.getAllLeaderboardProfiles = async function () {
-  //Get all the leaderboard profiles
+exports.getAllLeaderboardEntries = async function () {
+  //Get all the leaderboard Entries
+  let results = await sqlDAL.getAllLeaderEntries();
+  // console.log("controller results: ", results);
+  return results;
 };

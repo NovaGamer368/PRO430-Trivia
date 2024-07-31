@@ -10,7 +10,6 @@ function shuffle(array) {
   }
   return array;
 }
-
 router.get("/play", async function (req, res, next) {
   try {
     let questions = await gameController.getTriviaQuestions();
@@ -63,12 +62,39 @@ router.post("/play", async function (req, res, next) {
         answered += question.Points;
       }
     });
+    //TODO: Should get all entries and see if username is already on the score board and just update the entry
     //Do the SQL statement to store the new score on the leaderboard
+    await gameController.createLeaderboardEntry(
+      req.session.user.username,
+      score
+    );
     res.render("result", {
       user: req.session.user,
       isAdmin: req.cookies.isAdmin,
       resultString: `Your score is ${score} / ${answered}!`,
     });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: err.message,
+      error: err,
+    });
+  }
+});
+
+router.get("/newQuestion", async function (req, res, next) {
+  try {
+    // Checking if user is logged in
+    if (req.session.user !== undefined) {
+      res.render("newQuestion", {
+        user: req.session.user,
+        isAdmin: req.cookies.isAdmin,
+      });
+    } else {
+      // If user is not logged in, throw an error
+      throw new Error("User not logged in");
+    }
   } catch (err) {
     // Handle errors
     console.error(err);

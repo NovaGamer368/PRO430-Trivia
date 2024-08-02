@@ -352,6 +352,34 @@ exports.createLeaderboardEntry = async function (username, score) {
     con.end();
   }
 };
+exports.updateLeaderboardEntry = async function (id, score) {
+  let result = new Result();
+
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `UPDATE Leaderboard 
+    SET Score = ${score}, 
+        DateCompleted = '${new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ")}' 
+    WHERE EntryId = '${id}'`;
+
+    const entryResult = await con.query(sql);
+
+    result.message = "Leaderboard Updated";
+    return result;
+  } catch (err) {
+    console.log(err);
+
+    result.status = STATUS_CODES.failure;
+    result.message = err.message;
+    return result;
+  } finally {
+    con.end();
+  }
+};
 
 exports.getAllLeaderEntries = async function () {
   entry = [];

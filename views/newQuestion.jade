@@ -1,7 +1,36 @@
 extends layout
 
 block content
-    h1 Play Time 4 Trivia!
-    br
-    br
-    
+    center
+        h1 Suggest a New Trivia Question
+        form(action='/trivia/create' method='POST')
+                label(for='question') Question
+                input(type='text' name='question' id='question' required maxlength='200')
+                br
+                br
+
+                label(for='wrongAnswer1') Wrong Answer 1
+                input(type='text' name='wrongAnswer1' id='wrongAnswer1' required maxlength='100')
+                br
+                br
+
+                label(for='wrongAnswer2') Wrong Answer 2
+                input(type='text' name='wrongAnswer2' id='wrongAnswer2' required maxlength='100')
+                br
+                br
+
+                label(for='wrongAnswer3') Wrong Answer 3
+                input(type='text' name='wrongAnswer3' id='wrongAnswer3' required maxlength='100')
+                br
+                br
+
+                label(for='correctAnswer') Correct Answer
+                input(type='text' name='correctAnswer' id='correctAnswer' required maxlength='100')
+                br
+                br
+
+                label(for='points') Points
+                input(readonly name='points' id='points' value='100')
+                br
+
+                button(type='submit') Create

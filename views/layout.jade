@@ -4,16 +4,17 @@ html
     title= title
     link(rel='stylesheet', href='/css/style.css')
   body
-    nav
-      a(class='active', href='/') Home
-      a(class='active', href='/leaderboard') Leaderboard
-      if user
-        if isAdmin.toLowerCase() == 'true'
-          a(class='', href='/a/users/user') Users
-        a(class='active', href='/g/play') Play
-        a(class='', href='/g/newQuestion') New Question
-        a(class='', href='/u/profile') Profile
-        a(class='', href='/u/logout') Logout #{user.username}
-      else
-        a(class='', href='/u/login') Login
-    block content
+    center
+      nav
+        a(class='active', href='/') Home
+        a(class='active', href='/leaderboard') Leaderboard
+        if user
+          if isAdmin.toLowerCase() == 'true'
+            a(class='', href='/a/users/user') Users
+          a(class='active', href='/g/play') Play
+          a(class='', href='/g/newQuestion') Suggest New Question
+          a(class='', href='/u/profile') Profile
+          a(class='', href='/u/logout') Logout #{user.username}
+        else
+          a(class='', href='/u/login') Login
+      block content

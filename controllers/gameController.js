@@ -15,6 +15,10 @@ exports.createLeaderboardEntry = async function (username, score) {
   let results = await sqlDAL.createLeaderboardEntry(username, score);
   // console.log("CreateLeaderboardEntry : ", results);
 };
+exports.updateLeaderboardEntry = async function (username, score) {
+  let results = await sqlDAL.updateLeaderboardEntry(username, score);
+  console.log("UpdateLeaderboardEntry : ", results);
+};
 exports.getAllLeaderboardEntries = async function () {
   //Get all the leaderboard Entries
   let results = await sqlDAL.getAllLeaderEntries();

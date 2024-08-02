@@ -64,9 +64,13 @@ create table if not exists Leaderboard(
 	EntryId int NOT NULL AUTO_INCREMENT,
 	Username varchar(200) NOT NULL,
     Score bigint NOT NULL,
+    DateCompleted datetime NOT NULL,
 	PRIMARY KEY (EntryId)
 );
-insert into Leaderboard (Username, Score) values ("xBestAdminx", 1000);
-insert into Leaderboard (Username, Score) values ("Trivia_GOD", 700);
-insert into Leaderboard (Username, Score) values ("anonymous", 10000);
+
+insert into Leaderboard (Username, Score, DateCompleted) values ("xBestAdminx", 1000, '	2008-11-11 13:23:44');
+insert into Leaderboard (Username, Score, DateCompleted) values ("Trivia_GOD", 700, '	2008-11-11 13:23:44');
+insert into Leaderboard (Username, Score, DateCompleted) values ("anonymous", 10000, '	2008-11-11 13:23:44');
+
+select * from Leaderboard;
 -- Leaderboard section END

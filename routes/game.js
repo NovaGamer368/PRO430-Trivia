@@ -52,6 +52,7 @@ router.post("/play", async function (req, res, next) {
     const userAnswers = req.body;
     let score = 0;
     let answered = 0;
+    let userFound = false;
 
     questions.forEach((question, index) => {
       const userAnswer = userAnswers[`Question${index + 1}`];
@@ -63,11 +64,27 @@ router.post("/play", async function (req, res, next) {
       }
     });
     //TODO: Should get all entries and see if username is already on the score board and just update the entry
+    const leaderboardEntries = await gameController.getAllLeaderboardEntries();
+    console.log("Leaderboard entries: ", leaderboardEntries);
+    leaderboardEntries.forEach(async (entry) => {
+      if (entry.Username === req.session.user.username) {
+        console.log("USER FOUND: ", entry);
+        userFound = true;
+        if (score >= entry.Score) {
+          console.log("NEW HIGH SCORE!!!");
+          await gameController.updateLeaderboardEntry(entry.EntryId, score);
+        }
+      }
+    });
+
     //Do the SQL statement to store the new score on the leaderboard
-    await gameController.createLeaderboardEntry(
-      req.session.user.username,
-      score
-    );
+    if (!userFound) {
+      console.log("NEW USER YAAAY");
+      await gameController.createLeaderboardEntry(
+        req.session.user.username,
+        score
+      );
+    }
     res.render("result", {
       user: req.session.user,
       isAdmin: req.cookies.isAdmin,

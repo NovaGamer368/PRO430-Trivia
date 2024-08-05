@@ -3,7 +3,7 @@ extends layout
 block content
     center
         h1 Suggest a New Trivia Question
-        form(action='/trivia/create' method='POST')
+        form(action='newQuestion' method='POST')
                 label(for='question') Question
                 input(type='text' name='question' id='question' required maxlength='200')
                 br

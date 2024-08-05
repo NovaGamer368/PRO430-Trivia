@@ -305,7 +305,7 @@ exports.getAllTriviaQuestions = async function () {
   //Connection
   const con = await mysql.createConnection(sqlConfig);
   try {
-    let sql = `select * from TriviaQuestions;`;
+    let sql = `select * from TriviaQuestions WHERE isSuggested = 0;`;
 
     const [questionResults] = await con.query(sql);
     for (key in questionResults) {
@@ -322,6 +322,38 @@ exports.getAllTriviaQuestions = async function () {
   }
 
   return questions;
+};
+exports.createTriviaQuestion = async function (
+  Question,
+  WrongAnswer1,
+  WrongAnswer2,
+  WrongAnswer3,
+  CorrectAnswer,
+  points
+) {
+  let result = new Result();
+
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `insert into TriviaQuestions (Question, WrongAnswer1, WrongAnswer2, WrongAnswer3, CorrectAnswer,points, isSuggested) values ('${Question}', '${WrongAnswer1}','${WrongAnswer2}','${WrongAnswer3}','${CorrectAnswer}',${points},true)`;
+    const questionResults = await con.query(sql);
+
+    let newQuestion = questionResults[0].TriviaId;
+
+    result.status = STATUS_CODES.success;
+    result.message = "Question Suggested with Trivia Id: " + newQuestion;
+    result.data = newQuestion;
+    return result;
+  } catch (err) {
+    console.log(err);
+
+    result.status = STATUS_CODES.failure;
+    result.message = err.message;
+    return result;
+  } finally {
+    con.end();
+  }
 };
 
 exports.createLeaderboardEntry = async function (username, score) {

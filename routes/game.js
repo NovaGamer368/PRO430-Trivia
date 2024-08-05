@@ -63,15 +63,15 @@ router.post("/play", async function (req, res, next) {
         answered += question.Points;
       }
     });
-    //TODO: Should get all entries and see if username is already on the score board and just update the entry
+
     const leaderboardEntries = await gameController.getAllLeaderboardEntries();
     console.log("Leaderboard entries: ", leaderboardEntries);
     leaderboardEntries.forEach(async (entry) => {
       if (entry.Username === req.session.user.username) {
-        console.log("USER FOUND: ", entry);
+        // console.log("USER FOUND: ", entry);
         userFound = true;
         if (score >= entry.Score) {
-          console.log("NEW HIGH SCORE!!!");
+          // console.log("NEW HIGH SCORE!!!");
           await gameController.updateLeaderboardEntry(entry.EntryId, score);
         }
       }
@@ -112,6 +112,32 @@ router.get("/newQuestion", async function (req, res, next) {
       // If user is not logged in, throw an error
       throw new Error("User not logged in");
     }
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: err.message,
+      error: err,
+    });
+  }
+});
+router.post("/newQuestion", async function (req, res, next) {
+  try {
+    const userAnswers = req.body;
+
+    await gameController.createTriviaQuestion(
+      userAnswers.question,
+      userAnswers.wrongAnswer1,
+      userAnswers.wrongAnswer2,
+      userAnswers.wrongAnswer3,
+      userAnswers.correctAnswer,
+      100
+    );
+
+    res.render("newQuestionResponse", {
+      user: req.session.user,
+      isAdmin: req.cookies.isAdmin,
+    });
   } catch (err) {
     // Handle errors
     console.error(err);

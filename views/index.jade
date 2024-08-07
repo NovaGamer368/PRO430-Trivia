@@ -2,6 +2,8 @@ extends layout
 
 block content
   h1= title
+  if error != ''
+        label(class='error') #{error}
   p Welcome to #{title}
   if user
     p You are logged in as: #{user.username}

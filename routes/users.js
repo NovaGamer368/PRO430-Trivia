@@ -54,10 +54,14 @@ router.post("/login", async function (req, res, next) {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).render("error", {
-      message: "Failed to log in",
-      error: err,
+    res.render("login", {
+      title: "Time 4 Trivia",
+      error: "Invalid Login. Please try again.",
     });
+    // res.status(500).render("error", {
+    //   message: "Failed to log in",
+    //   error: err,
+    // });
   }
 });
 
@@ -86,10 +90,14 @@ router.get("/profile", function (req, res, next) {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).render("error", {
-      message: err.message,
-      error: err,
+    res.render("index", {
+      title: "Time 4 Trivia",
+      error: err.message,
     });
+    // res.status(500).render("error", {
+    //   message: err.message,
+    //   error: err,
+    // });
   }
 });
 

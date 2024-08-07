@@ -9,7 +9,7 @@ html
         a(class='active', href='/') Home
         a(class='active', href='/leaderboard') Leaderboard
         if user
-          if isAdmin.toLowerCase() == 'true'
+          if isAdmin
             a(class='', href='/a/users/user') Users
           a(class='active', href='/g/play') Play
           a(class='', href='/g/newQuestion') Suggest New Question

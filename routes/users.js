@@ -43,8 +43,8 @@ router.post("/login", async function (req, res, next) {
       req.session.user = {
         userId: result.data.userId,
         username: result.data.username,
+        isAdmin: isAdmin,
       };
-      res.cookie("isAdmin", isAdmin);
       res.redirect("/");
     } else {
       res.render("login", {
@@ -80,7 +80,7 @@ router.get("/profile", function (req, res, next) {
       res.render("profile", {
         title: "Time 4 Trivia",
         user: req.session.user,
-        isAdmin: req.cookies.isAdmin,
+        isAdmin: req.session.isAdmin,
         error: "",
       });
     } else {
@@ -105,7 +105,7 @@ router.post("/profile", async function (req, res, next) {
     res.render("profile", {
       title: "Time 4 Trivia",
       user: req.session.user,
-      isAdmin: req.cookies.isAdmin,
+      isAdmin: req.session.isAdmin,
       error: "Password do not match",
     });
   } else {
@@ -123,7 +123,7 @@ router.post("/profile", async function (req, res, next) {
       res.render("profile", {
         title: "Time 4 Trivia",
         user: req.session.user,
-        isAdmin: req.cookies.isAdmin,
+        isAdmin: req.session.isAdmin,
         error: "Password update failed",
       });
     }

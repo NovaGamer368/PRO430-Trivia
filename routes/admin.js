@@ -8,7 +8,7 @@ const userController = require("../controllers/userController");
 router.get("/users/:role", async function (req, res, next) {
   let role = req.params.role;
 
-  if (!req.session.user || !req.cookies.isAdmin) {
+  if (!req.session.user || !req.session.isAdmin) {
     res.redirect("/");
   } else {
     let users = await userController.getUsers(role);
@@ -16,7 +16,7 @@ router.get("/users/:role", async function (req, res, next) {
     res.render("users", {
       title: "Time 4 Trivia",
       user: req.session.user,
-      isAdmin: req.cookies.isAdmin,
+      isAdmin: req.session.isAdmin,
       users: users,
     });
   }

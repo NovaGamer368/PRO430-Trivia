@@ -31,7 +31,7 @@ router.get("/play", async function (req, res, next) {
     if (req.session.user !== undefined) {
       res.render("play", {
         user: req.session.user,
-        isAdmin: req.cookies.isAdmin,
+        isAdmin: req.session.isAdmin,
         questions: questions,
       });
     } else {
@@ -79,7 +79,6 @@ router.post("/play", async function (req, res, next) {
 
     //Do the SQL statement to store the new score on the leaderboard
     if (!userFound) {
-      console.log("NEW USER YAAAY");
       await gameController.createLeaderboardEntry(
         req.session.user.username,
         score
@@ -87,7 +86,7 @@ router.post("/play", async function (req, res, next) {
     }
     res.render("result", {
       user: req.session.user,
-      isAdmin: req.cookies.isAdmin,
+      isAdmin: req.session.isAdmin,
       resultString: `Your score is ${score} / ${answered}!`,
     });
   } catch (err) {
@@ -106,7 +105,7 @@ router.get("/newQuestion", async function (req, res, next) {
     if (req.session.user !== undefined) {
       res.render("newQuestion", {
         user: req.session.user,
-        isAdmin: req.cookies.isAdmin,
+        isAdmin: req.session.isAdmin,
       });
     } else {
       // If user is not logged in, throw an error
@@ -136,7 +135,7 @@ router.post("/newQuestion", async function (req, res, next) {
 
     res.render("newQuestionResponse", {
       user: req.session.user,
-      isAdmin: req.cookies.isAdmin,
+      isAdmin: req.session.isAdmin,
     });
   } catch (err) {
     // Handle errors

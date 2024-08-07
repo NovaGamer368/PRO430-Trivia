@@ -7,8 +7,9 @@ const userController = require("../controllers/userController");
 
 router.get("/users/:role", async function (req, res, next) {
   let role = req.params.role;
+  console.log("admin: ", req.session);
 
-  if (!req.session.user || !req.session.isAdmin) {
+  if (!req.session.user || !req.session.user.isAdmin) {
     res.redirect("/");
   } else {
     let users = await userController.getUsers(role);
@@ -24,10 +25,12 @@ router.get("/users/:role", async function (req, res, next) {
 
 router.get("/delete/:userId", async function (req, res, next) {
   let userId = req.params.userId;
-
-  await userController.deleteUserById(userId);
-
-  res.redirect("/");
+  if (!req.session.user || !req.session.isAdmin) {
+    res.redirect("/");
+  } else {
+    await userController.deleteUserById(userId);
+    res.redirect("/");
+  }
 });
 
 // router.get('/drop', async function (req, res, next) {

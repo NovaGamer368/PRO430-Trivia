@@ -31,7 +31,7 @@ router.get("/play", async function (req, res, next) {
     if (req.session.user !== undefined) {
       res.render("play", {
         user: req.session.user,
-        isAdmin: req.session.isAdmin,
+        isAdmin: req.session.user.isAdmin,
         questions: questions,
       });
     } else {
@@ -86,7 +86,7 @@ router.post("/play", async function (req, res, next) {
     }
     res.render("result", {
       user: req.session.user,
-      isAdmin: req.session.isAdmin,
+      isAdmin: req.session.user.isAdmin,
       resultString: `Your score is ${score} / ${answered}!`,
     });
   } catch (err) {
@@ -105,7 +105,7 @@ router.get("/newQuestion", async function (req, res, next) {
     if (req.session.user !== undefined) {
       res.render("newQuestion", {
         user: req.session.user,
-        isAdmin: req.session.isAdmin,
+        isAdmin: req.session.user.isAdmin,
       });
     } else {
       // If user is not logged in, throw an error
@@ -135,7 +135,7 @@ router.post("/newQuestion", async function (req, res, next) {
 
     res.render("newQuestionResponse", {
       user: req.session.user,
-      isAdmin: req.session.isAdmin,
+      isAdmin: req.session.user.isAdmin,
     });
   } catch (err) {
     // Handle errors

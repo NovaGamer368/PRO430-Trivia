@@ -6,7 +6,7 @@ router.get("/", function (req, res, next) {
   res.render("index", {
     title: "Time 4 Trivia",
     user: req.session.user,
-    isAdmin: req.session.isAdmin,
+    isAdmin: req.session.user ? req.session.user.isAdmin : false,
   });
 });
 
@@ -19,7 +19,7 @@ router.get("/leaderboard", async function (req, res, next) {
     await res.render("leaderboard", {
       title: "Time 4 Trivia",
       user: req.session.user,
-      isAdmin: req.session.isAdmin,
+      isAdmin: req.session.user ? req.session.user.isAdmin : false,
       leaders: leaders,
     });
   } catch (err) {

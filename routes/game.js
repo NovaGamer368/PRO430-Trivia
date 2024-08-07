@@ -41,10 +41,14 @@ router.get("/play", async function (req, res, next) {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).render("error", {
-      message: err.message,
-      error: err,
+    res.render("index", {
+      title: "Time 4 Trivia",
+      error: err.message,
     });
+    // res.status(500).render("error", {
+    //   message: err.message,
+    //   error: err,
+    // });
   }
 });
 router.post("/play", async function (req, res, next) {
@@ -114,10 +118,14 @@ router.get("/newQuestion", async function (req, res, next) {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).render("error", {
-      message: err.message,
-      error: err,
+    res.render("index", {
+      title: "Time 4 Trivia",
+      error: err.message,
     });
+    // res.status(500).render("error", {
+    //   message: err.message,
+    //   error: err,
+    // });
   }
 });
 router.post("/newQuestion", async function (req, res, next) {

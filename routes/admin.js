@@ -33,6 +33,17 @@ router.get("/delete/:userId", async function (req, res, next) {
   }
 });
 
+router.post("/demote/:userId", async function (req, res, next) {
+
+  let userId = req.body.userId;
+  
+  if ((req.session.user.userId != userId) && req.session.isAdmin) {
+  await userController.demoteUser(userId);
+  }
+
+  res.redirect('/a/users/user')
+})
+
 // router.get('/drop', async function (req, res, next) {
 //   console.log("dropping database!");
 //   await userController.drop();

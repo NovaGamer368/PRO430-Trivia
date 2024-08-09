@@ -4,13 +4,17 @@ block content
     h1 Play Time 4 Trivia!
     br
     br
-    form(action="play" method="POST")
-        each question, index in questions
-            div
-                b #{question.Question}
-                br
-                each answer, i in question.ShuffledAnswers
-                    input(type='radio', name=`Question${index + 1}`, value=i, id=`q${index + 1}a${i + 1}`)
-                    label(for=`q${index + 1}a${i + 1}`) #{answer.text}
-                    br
+    form.play-form(action="play" method="POST")
+        .questions-container
+            each question, index in questions
+                .question-block
+                    b #{index + 1}# #{question.Question} (#{question.Points} points)
+                    .answers-grid
+                        each answer, i in question.ShuffledAnswers
+                            .answer-item
+                                input(type='radio', name=`Question${index + 1}`, value=i, id=`q${index + 1}a${i + 1}`)
+                                label(for=`q${index + 1}a${i + 1}`) #{answer.text}
+        br
         button(type="submit") Submit
+
+

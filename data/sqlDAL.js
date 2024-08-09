@@ -294,6 +294,21 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
   }
 };
 
+exports.updateUserRole = async function (userId, newRoleId) {
+  const con = await mysql.createConnection(sqlConfig);
+  try {
+    let sql = `UPDATE UserRoles SET roleId = ${newRoleId} WHERE userId = ${userId}`;
+    await con.query(sql);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  } finally {
+    con.end();
+  }
+};
+
+
 /////////////////////////////End of the Users CRUD
 /////////////////////////////Start of the Trivia Questions CRUD
 /**

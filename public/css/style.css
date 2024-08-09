@@ -2,7 +2,7 @@
 body {
   background-color: lightblue;
   font-family: 'Arial', sans-serif;
-  color: #333;
+  color: black;
   margin: 0;
   padding: 0;
 }
@@ -60,7 +60,7 @@ nav a:hover{
 /* Forms */
 form {
   background-color: #fffa61;
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
@@ -69,7 +69,7 @@ form {
 }
 
 input[type='text'], input[type='password'], input[type='submit'] {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   margin: 10px 0;
   border-radius: 4px;
@@ -148,26 +148,20 @@ label {
 
 
 
-
-
-
-
-
-
-
 /* Styling for the entire form, now using the .play-form class */
 .play-form {
   width: 100%;
-  max-width: 1200px; /* Adjust as needed */
-  margin: 0 auto; /* Center the form on the page */
+  max-width: 1200px; 
+  margin: 0 auto; 
   padding: 20px;
 }
 
 /* Container for all question cards */
 .questions-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two-column layout */
-  gap: 20px; /* Space between cards */
+  background-color: #fffa61;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 /* Styling for each question block (card) */
@@ -183,7 +177,7 @@ label {
 /* Styling for the question text */
 .question-block b {
   font-size: 1.5em;
-  color: rgb(0, 217, 255);
+  color: #00d9ff;
   margin-bottom: 15px;
 }
 
@@ -191,7 +185,7 @@ label {
 .answers-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Space between individual answer items */
+  gap: 10px;
 }
 
 /* Styling for each answer item */
@@ -208,16 +202,17 @@ label {
 /* Styling for the submit button */
 .play-form button[type="submit"] {
   display: block;
-  margin: 30px auto 0; /* Center the button horizontally and add space above */
+  margin: 30px auto 0;
   padding: 10px 20px;
-  background-color: #fffa61;
+  background-color: lightblue;
+  border: 2px black;
   color: black;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.2em;
 }
 
 .play-form button[type="submit"]:hover {
-  background-color: #e65550; /* Darken the button on hover */
+  background-color: #00d9ff; /* Darken the button on hover */
 }
+  

@@ -21,7 +21,12 @@ exports.getAllUsers = async function () {
   const con = await mysql.createConnection(sqlConfig);
 
   try {
-    let sql = `select * from Users;`;
+    let sql = `
+      SELECT u.*
+      FROM Users u
+      JOIN UserRoles ur ON u.userId = ur.userId
+      JOIN Roles r ON ur.roleId = r.roleId
+      WHERE u.userId != 4 -- Replace ? with the logged-in user's ID;`
 
     const [userResults] = await con.query(sql);
 
@@ -295,16 +300,22 @@ exports.updateUserPassword = async function (userId, hashedPassword) {
 };
 
 exports.updateUserRole = async function (userId, newRoleId) {
+  let result = new Result();
+
   const con = await mysql.createConnection(sqlConfig);
+
   try {
     let sql = `UPDATE UserRoles SET roleId = ${newRoleId} WHERE userId = ${userId}`;
-    await con.query(sql);
-    return true;
+    const userResult = await con.query(sql);
+
+    result.status = STATUS_CODES.success;
+    result.message = "User Role Updated";
+    return result;
   } catch (err) {
     console.log(err);
-    return false;
-  } finally {
-    con.end();
+    result.status = STATUS_CODES.failure;
+    result.message = err.message;
+    return result;
   }
 };
 

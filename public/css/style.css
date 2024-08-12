@@ -213,6 +213,6 @@ label {
 }
 
 .play-form button[type="submit"]:hover {
-  background-color: #00d9ff; /* Darken the button on hover */
+  background-color: #00d9ff;
 }
   

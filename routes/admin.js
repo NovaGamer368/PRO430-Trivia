@@ -33,7 +33,7 @@ router.get("/delete/:userId", async function (req, res, next) {
   }
 });
 
-router.post("/demote/:userId", async function (req, res, next) {
+router.post("/users/user/demote/:userId", async function (req, res, next) {
 
   let userId = req.params.userId;
   
@@ -44,7 +44,7 @@ router.post("/demote/:userId", async function (req, res, next) {
   res.redirect('/a/users/user')
 });
 
-router.post("/promote/:userId", async function (req, res, next) {
+router.post("/users/user/promote/:userId", async function (req, res, next) {
   let userId = req.params.userId;
   
   if ((req.session.user.userId != userId) && req.session.user.isAdmin) {
@@ -55,7 +55,7 @@ router.post("/promote/:userId", async function (req, res, next) {
 });
 
 
-router.post("/enable/:userId", async function (req, res, next) {
+router.post("/users/user/enable/:userId", async function (req, res, next) {
   let userId = req.params.userId;
   
   if (req.session.user.isAdmin) {
@@ -65,7 +65,7 @@ router.post("/enable/:userId", async function (req, res, next) {
   res.redirect('/a/users/user');
 });
 
-router.post("/disable/:userId", async function (req, res, next) {
+router.post("/users/user/disable/:userId", async function (req, res, next) {
   let userId = req.params.userId;
   
   if ((req.session.user.userId != userId) && req.session.user.isAdmin) {

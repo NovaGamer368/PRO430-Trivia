@@ -1,27 +1,35 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const gameController = require("../controllers/gameController");
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Time 4 Trivia', user: req.session.user, isAdmin: req.cookies.isAdmin });
+router.get("/", function (req, res, next) {
+  res.render("index", {
+    title: "Time 4 Trivia",
+    user: req.session.user,
+    isAdmin: req.session.user ? req.session.user.isAdmin : false,
+  });
 });
 
-router.get('/leaderboard', function(req, res, next) {
-  // TODO: Get actual leader data from the database!
+router.get("/leaderboard", async function (req, res, next) {
+  try {
+    // TODO: Get actual leader data from the database!
+    let leaders = await gameController.getAllLeaderboardEntries();
+    leaders.sort((a, b) => b.Score - a.Score);
 
-  // static data
-  let leaders = [
-    {
-      name: 'Sue', score: 100
-    },
-    {
-      name: 'Don', score: 99
-    },
-    {
-      name: 'Ralph', score: 3
-    }
-  ];
-
-  res.render('leaderboard', { title: 'Time 4 Trivia', user: req.session.user, isAdmin: req.cookies.isAdmin, leaders: leaders });
+    await res.render("leaderboard", {
+      title: "Time 4 Trivia",
+      user: req.session.user,
+      isAdmin: req.session.user ? req.session.user.isAdmin : false,
+      leaders: leaders,
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).render("error", {
+      message: err.message,
+      error: err,
+    });
+  }
 });
 
 module.exports = router;

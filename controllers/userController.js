@@ -8,8 +8,8 @@ const STATUS_CODES = require("../models/statusCodes").STATUS_CODES;
  *
  * @returns an array of user models
  */
-exports.getUsers = async function (role = "user") {
-  let results = await sqlDAL.getUsersByRole(role);
+exports.getUsers = async function () {
+  let results = await sqlDAL.getAllUsers();
   // console.log('getUsers');
   // console.log(results);
   return results;
@@ -111,6 +111,47 @@ exports.getUserById = function (userId) {
 exports.deleteUserById = function (userId) {
   return sqlDAL.deleteUserById(userId);
 };
+
+exports.disableUser = async function (userId) {
+  let result = await sqlDAL.updateUserRole(userId, 3); // 3 is the roleId for "disabled"
+  
+  if (result) {
+    return new Result(STATUS_CODES.success, "User disabled successfully.");
+  } else {
+    return new Result(STATUS_CODES.failure, "Failed to disable user.");
+  }
+};
+
+exports.enableUser = async function (userId) {
+  let result = await sqlDAL.updateUserRole(userId, 1); // 1 is the roleId for "user"
+  
+  if (result) {
+    return new Result(STATUS_CODES.success, "User enabled successfully.");
+  } else {
+    return new Result(STATUS_CODES.failure, "Failed to enable user.");
+  }
+};
+
+exports.promoteUser = async function (userId) {
+  let result = await sqlDAL.updateUserRole(userId, 2); // 2 is the roleId for "admin"
+  
+  if (result) {
+    return new Result(STATUS_CODES.success, "User promoted to admin successfully.");
+  } else {
+    return new Result(STATUS_CODES.failure, "Failed to promote user.");
+  }
+};
+
+exports.demoteUser = async function (userId) {
+  let result = await sqlDAL.updateUserRole(userId, 1); // 1 is the roleId for "user"
+  
+  if (result) {
+    return new Result(STATUS_CODES.success, "Admin demoted to user successfully.");
+  } else {
+    return new Result(STATUS_CODES.failure, "Failed to demote admin.");
+  }
+};
+
 
 exports.drop = function () {
   return sqlDAL.drop();

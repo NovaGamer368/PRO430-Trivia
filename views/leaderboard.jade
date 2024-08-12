@@ -2,9 +2,15 @@ extends layout
 
 block content
   h1 Time 4 Trivia Leaderboard!
-  ol
-    each val in leaders
-      li
-        div
-          label= val.name + ' : '
-          span= val.score
+  table(border='1')
+    tr
+      th Rank
+      th Username
+      th Score
+      th Date Completed
+    each entry, index in leaders
+      tr 
+        td= index + 1
+        td= entry.Username 
+        td= entry.Score 
+        td= entry.DateCompleted

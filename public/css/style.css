@@ -1,45 +1,218 @@
+/* Global Styles */
 body {
-  padding: 50px;
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  background-color: lightblue;
+  font-family: 'Arial', sans-serif;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #fffa61;
+  margin-bottom: 20px;
+}
+
+p, label, a, td, th {
+  font-size: 1.2em;
+  color: #333;
 }
 
 a {
-  color: black;
+  color: #fffa61;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: white;
-  background-color: black;
-}
-
-label {
-  display: inline-block;
-  font-weight: bold;
-  margin-right:5px;
-}
-
-nav {
-  padding: 5px;
-  margin: 0px;
-}
-
-nav a {
-  margin-right: 5px;
-  text-decoration: none;
-  border: solid 1px black;
-  padding: 5px;
-  border-radius: 5px;
+  color: #d9ce4f;
 }
 
 .error {
-  color:red;
-  font-weight: bold;;
+  color: #f11f1f;
+  font-weight: bold;
 }
 
-.userBox {
-  border:solid 1px black;
-  border-radius: 5px;
-  padding: 5px;
-  width: 250px;
-  margin-top: 10px;
+/* Centering Content */
+center {
+  text-align: center;
+  padding: 20px;
 }
+
+/* Navigation Bar */
+nav {
+  background-color: #fffa61;
+  padding: 10px 0;
+}
+
+nav a {
+  color: black;
+  padding: 10px 20px;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+nav a:hover{
+  background-color: #d9ce4f;
+  color: black;
+}
+
+/* Forms */
+form {
+  background-color: #fffa61;
+  /* padding: 20px; */
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 80%;
+  max-width: 500px;
+}
+
+input[type='text'], input[type='password'], input[type='submit'] {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+input[type='radio'] {
+  margin-right: 10px;
+}
+
+button[type='submit'] {
+  background-color: #fffa61;
+  color: black;
+  border: none;
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #d9ce4f;
+}
+
+/* Leaderboard Table */
+table {
+  width: 80%;
+  margin: 20px auto;
+  color: rgb(0, 0, 0);
+  border-collapse: collapse;
+  background-color: lightgray;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #fffa61;
+  color: black;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Trivia Question Styling */
+div {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
+}
+
+b {
+  font-size: 1.5em;
+  color: black;
+}
+
+label {
+  margin-right: 10px;
+}
+
+/* Result Page Styling */
+.resultString {
+  font-size: 2em;
+  color: #fffa61;
+  margin-bottom: 20px;
+}
+
+
+
+
+/* Styling for the entire form, now using the .play-form class */
+.play-form {
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 20px;
+}
+
+/* Container for all question cards */
+.questions-container {
+  display: grid;
+  background-color: #fffa61;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Styling for each question block (card) */
+.question-block {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styling for the question text */
+.question-block b {
+  font-size: 1.5em;
+  color: #00d9ff;
+  margin-bottom: 15px;
+}
+
+/* Grid layout for answers within each question block */
+.answers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Styling for each answer item */
+.answer-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure alignment of radio buttons and labels */
+.answer-item input[type="radio"] {
+  margin-right: 10px;
+}
+
+/* Styling for the submit button */
+.play-form button[type="submit"] {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 20px;
+  background-color: lightblue;
+  border: 2px black;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.play-form button[type="submit"]:hover {
+  background-color: #00d9ff;
+}
+  

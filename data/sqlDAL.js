@@ -6,8 +6,9 @@ const STATUS_CODES = require("../models/statusCodes").STATUS_CODES;
 
 const mysql = require("mysql2/promise");
 const sqlConfig = {
-  host: "localhost",
+  host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
+  password: `${process.env.MYSQL_PASSWORD}`,
   password: `${process.env.MYSQL_PASSWORD}`,
   database: process.env.MYSQL_DATABASE,
 };
@@ -26,7 +27,7 @@ exports.getAllUsers = async function () {
       FROM Users u
       JOIN UserRoles ur ON u.userId = ur.userId
       JOIN Roles r ON ur.roleId = r.roleId
-      WHERE u.userId != 4 -- Replace ? with the logged-in user's ID;`
+      WHERE u.userId != 4 -- Replace ? with the logged-in user's ID;`;
 
     const [userResults] = await con.query(sql);
 
@@ -318,7 +319,6 @@ exports.updateUserRole = async function (userId, newRoleId) {
     return result;
   }
 };
-
 
 /////////////////////////////End of the Users CRUD
 /////////////////////////////Start of the Trivia Questions CRUD

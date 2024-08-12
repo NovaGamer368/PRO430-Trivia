@@ -15,6 +15,7 @@ router.get("/leaderboard", async function (req, res, next) {
     // TODO: Get actual leader data from the database!
     let leaders = await gameController.getAllLeaderboardEntries();
     leaders.sort((a, b) => b.Score - a.Score);
+    console.log(leaders);
 
     await res.render("leaderboard", {
       title: "Time 4 Trivia",
@@ -25,8 +26,8 @@ router.get("/leaderboard", async function (req, res, next) {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).render("error", {
-      message: err.message,
+    await res.render("leaderboard", {
+      title: "Time 4 Trivia",
       error: err,
     });
   }

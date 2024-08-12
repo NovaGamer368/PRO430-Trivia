@@ -15,7 +15,6 @@ router.get("/leaderboard", async function (req, res, next) {
     // TODO: Get actual leader data from the database!
     let leaders = await gameController.getAllLeaderboardEntries();
     leaders.sort((a, b) => b.Score - a.Score);
-    console.log(leaders);
 
     await res.render("leaderboard", {
       title: "Time 4 Trivia",

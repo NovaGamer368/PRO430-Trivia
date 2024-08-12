@@ -2,8 +2,8 @@ extends layout
 
 block content
   h1 Time 4 Trivia Leaderboard!
-  if error != ''
-        label(class='error') #{error}
+  if error
+    label(class='error') #{error}
   else
     table(border='1')
       tr

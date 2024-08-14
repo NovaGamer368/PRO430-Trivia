@@ -177,28 +177,28 @@ exports.deleteUserById = async function (userId) {
  */
 exports.getUserByUsername = async function (username) {
   let user = null;
-
   const con = await mysql.createConnection(sqlConfig);
 
   try {
-    let sql = `select * from Users where Username = '${username}'`;
-    console.log(sql);
+    let sql = `SELECT * FROM Users WHERE Username = ?`;
+    const [userResults] = await con.query(sql, [username]);
 
-    const [userResults] = await con.query(sql);
+    if (userResults.length > 0) {
+      let u = userResults[0];
 
-    for (key in userResults) {
-      let u = userResults[key];
+      let roleSql = `SELECT UserId, Role FROM UserRoles ur JOIN Roles r ON ur.roleid = r.roleid WHERE ur.UserId = ?`;
+      const [roleResults] = await con.query(roleSql, [u.UserId]);
 
-      let sql = `select UserId, Role from UserRoles ur join Roles r on ur.roleid = r.roleid where ur.UserId = ${u.UserId}`;
-      console.log(sql);
-      const [roleResults] = await con.query(sql);
+      let roles = roleResults.map((role) => role.Role);
 
-      let roles = [];
-      for (key in roleResults) {
-        let role = roleResults[key];
-        roles.push(role.Role);
-      }
-      user = new User(u.UserId, u.Username, u.Email, u.Password, roles);
+      user = new User(
+        u.UserId,
+        u.Username,
+        u.Email,
+        u.Password,
+        roles,
+        u.is_logged_in
+      );
     }
   } catch (err) {
     console.log(err);
@@ -207,6 +207,18 @@ exports.getUserByUsername = async function (username) {
   }
 
   return user;
+};
+exports.updateUserLoginStatus = async function (userId, isLoggedIn) {
+  const con = await mysql.createConnection(sqlConfig);
+
+  try {
+    let sql = `UPDATE Users SET is_logged_in = ? WHERE UserId = ?`;
+    await con.query(sql, [isLoggedIn, userId]);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    con.end();
+  }
 };
 
 /**

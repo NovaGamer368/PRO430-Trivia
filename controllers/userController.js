@@ -75,23 +75,31 @@ exports.updateUserPassword = async function (
  * @returns The result of the login attempt
  */
 exports.login = async function (username, password) {
-  // console.log(`Logging in with username ${username}`);
-
   // Get User by Username
   let user = await sqlDAL.getUserByUsername(username);
 
   if (!user) return new Result(STATUS_CODES.failure, "Invalid Login.");
 
-  let passwordsMatch = await bcrypt.compare(password, user.password); // does the given password match the user's hashed password?
+  if (user.is_logged_in) {
+    return new Result(
+      STATUS_CODES.failure,
+      "User is already logged in from another session."
+    );
+  }
+
+  let passwordsMatch = await bcrypt.compare(password, user.password);
 
   if (passwordsMatch) {
-    // console.log("Successful login for " + username);
-    // console.log(user);
+    // Update user's login status in the database
+    await sqlDAL.updateUserLoginStatus(user.userId, true);
 
     return new Result(STATUS_CODES.success, "Valid Login.", user);
   } else {
     return new Result(STATUS_CODES.failure, "Invalid Login.");
   }
+};
+exports.updateUserLoginStatus = async function (userId, isLoggedIn) {
+  return sqlDAL.updateUserLoginStatus(userId, isLoggedIn);
 };
 
 /**
@@ -114,7 +122,7 @@ exports.deleteUserById = function (userId) {
 
 exports.disableUser = async function (userId) {
   let result = await sqlDAL.updateUserRole(userId, 3); // 3 is the roleId for "disabled"
-  
+
   if (result) {
     return new Result(STATUS_CODES.success, "User disabled successfully.");
   } else {
@@ -124,7 +132,7 @@ exports.disableUser = async function (userId) {
 
 exports.enableUser = async function (userId) {
   let result = await sqlDAL.updateUserRole(userId, 1); // 1 is the roleId for "user"
-  
+
   if (result) {
     return new Result(STATUS_CODES.success, "User enabled successfully.");
   } else {
@@ -134,9 +142,12 @@ exports.enableUser = async function (userId) {
 
 exports.promoteUser = async function (userId) {
   let result = await sqlDAL.updateUserRole(userId, 2); // 2 is the roleId for "admin"
-  
+
   if (result) {
-    return new Result(STATUS_CODES.success, "User promoted to admin successfully.");
+    return new Result(
+      STATUS_CODES.success,
+      "User promoted to admin successfully."
+    );
   } else {
     return new Result(STATUS_CODES.failure, "Failed to promote user.");
   }
@@ -144,15 +155,17 @@ exports.promoteUser = async function (userId) {
 
 exports.demoteUser = async function (userId) {
   let result = await sqlDAL.updateUserRole(userId, 1); // 1 is the roleId for "user"
-  
+
   if (result) {
-    return new Result(STATUS_CODES.success, "Admin demoted to user successfully.");
+    return new Result(
+      STATUS_CODES.success,
+      "Admin demoted to user successfully."
+    );
   } else {
     return new Result(STATUS_CODES.failure, "Failed to demote admin.");
   }
 };
 
-
-exports.drop = function () {
-  return sqlDAL.drop();
-};
+// exports.drop = function () {
+//   return sqlDAL.drop();
+// };

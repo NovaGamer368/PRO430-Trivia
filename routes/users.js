@@ -36,7 +36,7 @@ router.post("/login", async function (req, res, next) {
 
     let result = await userController.login(username, password);
 
-    let isAdmin = result.data.roles.includes("admin");
+    let isAdmin = result.data?.roles.includes("admin");
 
     if (result?.status == STATUS_CODES.success) {
       req.session.user = {
@@ -48,31 +48,39 @@ router.post("/login", async function (req, res, next) {
     } else {
       res.render("login", {
         title: "Time 4 Trivia",
-        error: "Invalid Login. Please try again.",
+        error: result.message || "Invalid Login. Please try again.",
       });
     }
   } catch (err) {
-    // Handle errors
     console.error(err);
     res.render("login", {
       title: "Time 4 Trivia",
-      error: "Invalid Login. Please try again.",
+      error: "An error occurred. Please try again.",
     });
-    // res.status(500).render("error", {
-    //   message: "Failed to log in",
-    //   error: err,
-    // });
   }
 });
 
-router.get("/logout", function (req, res, next) {
-  // Clear session information?!?
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
+router.get("/logout", async function (req, res, next) {
+  try {
+    if (req.session.user) {
+      await userController.updateUserLoginStatus(
+        req.session.user.userId,
+        false
+      );
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).send("Could not log out.");
+        } else {
+          res.redirect("/u/login");
+        }
+      });
+    } else {
+      res.redirect("/u/login");
     }
-  });
-  res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/u/login");
+  }
 });
 
 router.get("/profile", function (req, res, next) {

@@ -37,8 +37,8 @@ router.post("/users/user/demote/:userId", async function (req, res, next) {
 
   let userId = req.params.userId;
   
-  if ((req.session.user.userId != userId) && req.session.isAdmin) {
-  await userController.demoteUser(userId);
+  if (req.session.user.userId != userId) {
+    await userController.demoteUser(userId);
   }
 
   res.redirect('/a/users/user')

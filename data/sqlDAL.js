@@ -335,7 +335,7 @@ exports.getAllTriviaQuestions = async function () {
     const [questionResults] = await con.query(sql);
     for (key in questionResults) {
       let q = questionResults[key];
-      let sql = `select * from triviaquestions where TriviaId = ${q.TriviaId}`;
+      let sql = `select * from TriviaQuestions where TriviaId = ${q.TriviaId}`;
       const [singleQuestion] = await con.query(sql);
       // console.log(singleQuestion);
       questions.push(singleQuestion[0]);

@@ -3,6 +3,7 @@ use Time4Trivia;
 -- Trivia Questions section START
 drop table if exists TriviaQuestions;
 
+ALTER TABLE Users ADD COLUMN is_logged_in BOOLEAN DEFAULT FALSE;
 
 create table if not exists TriviaQuestions(
 	TriviaId int NOT NULL AUTO_INCREMENT,

@@ -4,9 +4,12 @@ use Time4Trivia;
 insert into Users  (username, password, email) values ('admin', '$2b$10$FEO.GJNL/DJS4wH5WkMvzOr0.ZoQ3FU3hO5WVdsM0kL3rBBJ3vrQa', 'admin@test.com');
 insert into Users (username, password, email) values ('test', '$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm', 'test@test.com');
 insert into Users (username, password, email) values ('phil', '$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm', 'phil@gmail.com');
+insert into Users (username, password, email) values ('disabled', '$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm', 'disabled@test.com');
+
 
 insert into Roles (Role, RoleDescription) values ('user', 'standard user role');
 insert into Roles (Role, RoleDescription) values ('admin', 'site admins');
+insert into Roles (Role, RoleDescription) values ('disable', 'disabled user role');
 
 set @userId = (select UserId from Users where username = 'test');
 set @roleId = (select RoleId from Roles where Role = 'user');
@@ -18,6 +21,10 @@ insert into UserRoles (UserId, RoleId) values (@userId, @roleId);
 
 set @userId = (select UserId from Users where username = 'admin');
 set @roleId = (select RoleId from Roles where Role = 'admin');
+insert into UserRoles (UserId, RoleId) values (@userId, @roleId);
+
+set @userId = (select UserId from Users where username = 'disabled');
+set @roleId = (select RoleId from Roles where Role = 'disabled');
 insert into UserRoles (UserId, RoleId) values (@userId, @roleId);
 
 -- test data

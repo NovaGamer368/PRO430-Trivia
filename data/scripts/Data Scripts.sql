@@ -1,7 +1,7 @@
 use Time4Trivia;
 
 -- Insert Initial Data
-insert into Users  (username, password, email) values ('admin', '$2b$10$8Zq3JH4WY6CRwQmitid6V.9oFlM/RKo3ATcXqGWdoXoW14SmAJ7d6', 'admin@test.com');
+insert into Users  (username, password, email) values ('admin', '$2b$10$FEO.GJNL/DJS4wH5WkMvzOr0.ZoQ3FU3hO5WVdsM0kL3rBBJ3vrQa', 'admin@test.com');
 insert into Users (username, password, email) values ('test', '$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm', 'test@test.com');
 insert into Users (username, password, email) values ('phil', '$2b$10$GlNz68MNngzHKC1Vc4FaDu2zRGnFqXvt3Q69ke1OAnJF9Ml1l/jBm', 'phil@gmail.com');
 

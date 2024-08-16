@@ -36,22 +36,26 @@ router.post("/login", async function (req, res, next) {
 
     let result = await userController.login(username, password);
 
-    let isAdmin = result.data?.roles.includes("admin");
-
     if (result?.status == STATUS_CODES.success) {
+      let isAdmin = result.data.roles.includes("admin");
+
+      // Set session data
       req.session.user = {
         userId: result.data.userId,
         username: result.data.username,
         isAdmin: isAdmin,
       };
+
       res.redirect("/");
     } else {
+      // If the user is already logged in or login failed
       res.render("login", {
         title: "Time 4 Trivia",
         error: result.message || "Invalid Login. Please try again.",
       });
     }
   } catch (err) {
+    // Handle errors
     console.error(err);
     res.render("login", {
       title: "Time 4 Trivia",

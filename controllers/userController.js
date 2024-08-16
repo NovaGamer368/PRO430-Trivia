@@ -78,8 +78,11 @@ exports.login = async function (username, password) {
   // Get User by Username
   let user = await sqlDAL.getUserByUsername(username);
 
-  if (!user) return new Result(STATUS_CODES.failure, "Invalid Login.");
+  if (!user) {
+    return new Result(STATUS_CODES.failure, "Invalid Login.");
+  }
 
+  // Check if user is already logged in
   if (user.is_logged_in) {
     return new Result(
       STATUS_CODES.failure,
@@ -87,10 +90,11 @@ exports.login = async function (username, password) {
     );
   }
 
+  // Verify the password
   let passwordsMatch = await bcrypt.compare(password, user.password);
 
   if (passwordsMatch) {
-    // Update user's login status in the database
+    // Set the user as logged in
     await sqlDAL.updateUserLoginStatus(user.userId, true);
 
     return new Result(STATUS_CODES.success, "Valid Login.", user);
@@ -98,6 +102,7 @@ exports.login = async function (username, password) {
     return new Result(STATUS_CODES.failure, "Invalid Login.");
   }
 };
+
 exports.updateUserLoginStatus = async function (userId, isLoggedIn) {
   return sqlDAL.updateUserLoginStatus(userId, isLoggedIn);
 };

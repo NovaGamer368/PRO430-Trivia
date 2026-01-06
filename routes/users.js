@@ -147,4 +147,47 @@ router.post("/profile", async function (req, res, next) {
   }
 });
 
+router.post("/delete", async function (req, res, next) {
+  try {
+    const password = req.body.password;
+
+    if (!password) {
+      return res.render("profile", {
+        title: "Time 4 Trivia",
+        user: req.session.user,
+        isAdmin: req.session.user.isAdmin,
+        error: "Please enter your current password",
+      });
+    }
+
+    const result = await userController.deleteUserById(
+      req.session.user.userId,
+      password
+    );
+
+    if (result.status == STATUS_CODES.success) {
+      req.session.destroy(() => {
+        res.redirect("/u/login");
+      });
+
+    } else {
+      res.render("profile", {
+        title: "Time 4 Trivia",
+        user: req.session.user,
+        isAdmin: req.session.user.isAdmin,
+        error: "Account deletion failed",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.render("profile", {
+      title: "Time 4 Trivia",
+      user: req.session.user,
+      isAdmin: req.session.user.isAdmin,
+      error: "Account deletion failed",
+    });
+  }
+});
+
+
 module.exports = router;

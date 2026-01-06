@@ -145,31 +145,41 @@ exports.getUserById = async function (userId) {
  * @param {*} hashedPassword
  * @returns a result object with status/message
  */
-exports.deleteUserById = async function (userId) {
+exports.deleteUserById = async function (userId, hashedPassword) {
   let result = new Result();
-
   const con = await mysql.createConnection(sqlConfig);
 
   try {
-    let sql = `delete from UserRoles where UserId = ${userId}`;
-    let result = await con.query(sql);
-    // console.log(result);
+    const [rows] = await con.execute(
+      `SELECT UserId FROM Users WHERE UserId = ${userId}`
+    );
 
-    sql = `delete from Users where UserId = ${userId}`;
-    result = await con.query(sql);
-    // console.log(result);
+    if (rows.length === 0) {
+      result.status = STATUS_CODES.failure;
+      result.message = "Invalid password";
+      return result;
+    }
+
+    await con.execute(
+      `DELETE FROM UserRoles WHERE UserId = ${userId}`
+    );
+
+    await con.execute(
+      `DELETE FROM Users WHERE UserId = ${userId}`,
+    );
 
     result.status = STATUS_CODES.success;
-    result.message = `User ${userId} delted!`;
+    result.message = `User ${userId} deleted`;
+    return result;
+
   } catch (err) {
     console.log(err);
     result.status = STATUS_CODES.failure;
     result.message = err.message;
+    return result;
   } finally {
-    con.end();
+    await con.end();
   }
-
-  return result;
 };
 
 /**

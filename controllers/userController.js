@@ -121,8 +121,22 @@ exports.getUserById = function (userId) {
  * @param {*} userId
  * @returns deletes the user matching the userId
  */
-exports.deleteUserById = function (userId) {
-  return sqlDAL.deleteUserById(userId);
+exports.deleteUserById = async function (userId, password) {
+  let user = await sqlDAL.getUserById(userId);
+
+  if (!user) {
+    return new Result(STATUS_CODES.failure, "User not found.");
+  }
+
+  let passwordsMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordsMatch) {
+    return new Result(STATUS_CODES.failure, "Invalid password.");
+  }
+
+  await sqlDAL.deleteUserById(userId, user.password);
+
+  return new Result(STATUS_CODES.success, "Account deleted.");
 };
 
 exports.disableUser = async function (userId) {
